@@ -6,7 +6,9 @@
 <header class="site-header" id="top">
     <div class="container site-header__inner">
         <a href="{{ route('home') }}" class="brand" aria-label="Servicios y Desarrollo JC — inicio">
-            <span class="brand__mark">JC</span>
+            <span class="brand__mark">
+                <img src="{{ asset('assets/img/isotipo.png') }}" alt="" width="28" height="28">
+            </span>
             <span class="brand__text">
                 Servicios y Desarrollo <strong>JC</strong>
             </span>

@@ -6,7 +6,15 @@
     <title>{{ $title ?? 'Servicios y Desarrollo JC — Diseñamos para la Capa 8' }}</title>
     <meta name="description" content="{{ $description ?? 'Servicios y Desarrollo JC construye sitios web, tiendas en línea y software a medida pensando siempre en la Capa 8 del modelo OSI: las personas.' }}">
 
-    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='20' fill='%230b0f1a'/%3E%3Ctext x='50' y='68' font-size='58' font-family='monospace' font-weight='700' fill='%234f8cff' text-anchor='middle'%3EJC%3C/text%3E%3C/svg%3E">
+    <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}">
+    <link rel="icon" type="image/png" sizes="16x16" href="{{ asset('favicon-16x16.png') }}">
+    <link rel="icon" type="image/png" sizes="32x32" href="{{ asset('favicon-32x32.png') }}">
+    <link rel="icon" type="image/png" sizes="96x96" href="{{ asset('favicon-96x96.png') }}">
+    <link rel="apple-touch-icon" sizes="180x180" href="{{ asset('apple-icon-180x180.png') }}">
+    <link rel="apple-touch-icon" href="{{ asset('apple-icon.png') }}">
+    <link rel="manifest" href="{{ asset('site.webmanifest') }}">
+    <meta name="msapplication-config" content="{{ asset('browserconfig.xml') }}">
+    <meta name="theme-color" content="#05060b">
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>

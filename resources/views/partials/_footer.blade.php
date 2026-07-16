@@ -1,7 +1,9 @@
 <footer class="site-footer">
     <div class="container site-footer__inner">
         <div class="site-footer__brand">
-            <span class="brand__mark">JC</span>
+            <span class="brand__mark">
+                <img src="{{ asset('assets/img/isotipo.png') }}" alt="" width="28" height="28">
+            </span>
             <span>Servicios y Desarrollo JC</span>
         </div>
 
