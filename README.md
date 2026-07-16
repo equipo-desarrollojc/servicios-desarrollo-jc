@@ -1,58 +1,73 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# Servicios y Desarrollo JC
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+Landing page del emprendimiento **Servicios y Desarrollo JC**, construida con Laravel.
+Tema central: la **Capa 8** del modelo OSI — el usuario — como eje de todo el diseño.
 
-## About Laravel
+## Desarrollo local
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
-
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
-
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
-
-## Learning Laravel
-
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
-
-In addition, [Laracasts](https://laracasts.com) contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
-
-You can also watch bite-sized lessons with real-world projects on [Laravel Learn](https://laravel.com/learn), where you will be guided through building a Laravel application from scratch while learning PHP fundamentals.
-
-## Agentic Development
-
-Laravel's predictable structure and conventions make it ideal for AI coding agents like Claude Code, Cursor, and GitHub Copilot. Install [Laravel Boost](https://laravel.com/docs/ai) to supercharge your AI workflow:
+Requiere PHP 8.3+ y Composer.
 
 ```bash
-composer require laravel/boost --dev
-
-php artisan boost:install
+composer install
+cp .env.example .env
+php artisan key:generate
+touch database/database.sqlite
+php artisan migrate
+php artisan serve
 ```
 
-Boost provides your agent 15+ tools and skills that help agents build Laravel applications while following best practices.
+El sitio queda disponible en `http://127.0.0.1:8000`.
 
-## Contributing
+No se usa Vite/Node: los estilos y el JavaScript viven directamente en
+`public/assets/css/app.css` y `public/assets/js/app.js`, sin paso de build.
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+### Variables de entorno relevantes
 
-## Code of Conduct
+| Variable | Uso |
+|---|---|
+| `CONTACT_WHATSAPP_NUMBER` | Número usado en los botones de WhatsApp (`config/contact.php`) |
+| `CONTACT_EMAIL` | Correo mostrado en la sección de contacto |
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+### Videos
 
-## Security Vulnerabilities
+Coloca los archivos reales en `public/videos/`:
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+- `public/videos/como-trabajamos.mp4`
+- `public/videos/proyectos.mp4`
 
-## License
+Si no existen, la sección de video muestra automáticamente un aviso
+"Video próximamente" en vez de un reproductor roto.
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+## Despliegue en Coolify
+
+El repo incluye un `Dockerfile` (PHP-FPM + Nginx + Supervisor en Alpine) listo para
+que Coolify lo construya directamente, sin necesidad de Node ni de un `docker-compose.yml`.
+
+Pasos en Coolify:
+
+1. **Nueva aplicación → desde este repositorio de Git**, tipo de build: `Dockerfile`.
+2. **Puerto expuesto**: `80` (ya declarado con `EXPOSE 80` en el Dockerfile).
+3. **Variables de entorno** a configurar en Coolify (no se commitean, van solo ahí):
+   - `APP_KEY` — genera una con `php artisan key:generate --show` y pégala tal cual
+     (incluyendo el prefijo `base64:`). Es obligatoria; el contenedor no arranca sin ella.
+   - `APP_ENV=production`
+   - `APP_DEBUG=false`
+   - `APP_URL=https://tu-dominio.com`
+   - `CONTACT_WHATSAPP_NUMBER=+50495076519`
+   - `CONTACT_EMAIL=contacto@serviciosydesarrollojc.com`
+4. **Almacenamiento persistente**: monta un volumen en `/var/www/html/database`.
+   Ahí vive `database.sqlite`, que guarda los mensajes de contacto, sesiones y caché.
+   Sin este volumen, cada nuevo deploy empieza con la base de datos vacía.
+5. Al iniciar, el contenedor corre automáticamente las migraciones
+   (`docker/entrypoint.sh`) y cachea config/rutas/vistas para producción.
+
+## Estructura relevante
+
+```
+app/Http/Controllers/ContactController.php   Guarda los mensajes del formulario
+app/Models/ContactMessage.php                Modelo del formulario de contacto
+resources/views/partials/                    Secciones de la landing (hero, capa8, etc.)
+public/assets/css/app.css                    Estilos (tema oscuro, sin build)
+public/assets/js/app.js                      Animaciones e interacciones (sin build)
+docker/                                       Config de nginx, php, supervisor y entrypoint
+```
