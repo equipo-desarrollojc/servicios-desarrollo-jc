@@ -1,52 +1,33 @@
-@php
-    $layers = [
-        ['n' => 1, 'name' => 'Física', 'desc' => 'Servidores, cables y señales: la base que sostiene todo lo demás.'],
-        ['n' => 2, 'name' => 'Enlace de datos', 'desc' => 'Conexiones estables entre dispositivos, sin fricción.'],
-        ['n' => 3, 'name' => 'Red', 'desc' => 'Rutas que llevan cada dato exactamente a donde debe llegar.'],
-        ['n' => 4, 'name' => 'Transporte', 'desc' => 'Que nada se pierda, se duplique o llegue a destiempo.'],
-        ['n' => 5, 'name' => 'Sesión', 'desc' => 'Conversaciones digitales que se mantienen abiertas y seguras.'],
-        ['n' => 6, 'name' => 'Presentación', 'desc' => 'Datos traducidos a formatos que todo sistema entiende.'],
-        ['n' => 7, 'name' => 'Aplicación', 'desc' => 'Donde el software finalmente cobra forma y se usa.'],
-    ];
-@endphp
-
-<section class="layers" id="capa8">
+<section class="concept" id="capa8">
     <div class="container">
-        <p class="section-kicker" data-reveal>El concepto</p>
+        <p class="section-kicker" data-reveal>La idea detrás de JC</p>
         <h2 class="section-title" data-reveal>
-            El modelo OSI tiene 7 capas técnicas.<br>
-            Nosotros trabajamos para la <span class="text-accent">octava</span>.
+            No construimos software.<br>
+            Construimos para la <span class="text-accent">Capa 8</span>.
         </h2>
         <p class="section-lede" data-reveal>
-            Puedes tener la infraestructura perfecta y aun así perder al usuario en el primer clic.
-            Por eso cada proyecto de <strong>JC</strong> se diseña de abajo hacia arriba: dominamos las
-            7 capas técnicas para que la Capa 8 —la persona— tenga una experiencia simple, rápida y confiable.
+            "Capa 8" es como en tecnología se le dice, en broma, a la persona: quien usa,
+            decide y necesita que las cosas simplemente funcionen. Nosotros lo tomamos en
+            serio. Por eso cada sitio, tienda o sistema que desarrollamos empieza con una
+            pregunta simple: <strong>¿esto le va a facilitar la vida a quien lo use?</strong>
         </p>
-    </div>
 
-    <div class="container layers__grid">
-        <ol class="layers__stack" id="layersStack" style="--total: {{ count($layers) }}">
-            @foreach ($layers as $layer)
-                <li class="layer-row" data-layer="{{ $layer['n'] }}">
-                    <span class="layer-row__num">{{ $layer['n'] }}</span>
-                    <span class="layer-row__body">
-                        <span class="layer-row__name">{{ $layer['name'] }}</span>
-                        <span class="layer-row__desc">{{ $layer['desc'] }}</span>
-                    </span>
-                    <span class="layer-row__bar" aria-hidden="true"></span>
-                </li>
-            @endforeach
-        </ol>
-
-        <div class="layer-eight" id="layerEight">
-            <span class="layer-eight__num">8</span>
-            <h3 class="layer-eight__name">Capa 8 — El usuario</h3>
-            <p class="layer-eight__desc">
-                Quien decide, compra, confía… o se va. No es una capa técnica, es la razón de ser
-                de todas las demás. Diseñamos cada interfaz, cada flujo y cada segundo de carga
-                pensando en ella.
-            </p>
-            <span class="layer-eight__pulse" aria-hidden="true"></span>
+        <div class="concept__pillars">
+            <div class="concept__pillar" data-reveal>
+                <span class="concept__pillar-icon"><i class="ti ti-bolt" aria-hidden="true"></i></span>
+                <h3>Simplicidad</h3>
+                <p>Interfaces claras, sin pasos de más ni fricción para quien las usa.</p>
+            </div>
+            <div class="concept__pillar" data-reveal style="--delay: 80ms">
+                <span class="concept__pillar-icon"><i class="ti ti-rocket" aria-hidden="true"></i></span>
+                <h3>Velocidad</h3>
+                <p>Sitios y sistemas que cargan rápido y responden como se espera.</p>
+            </div>
+            <div class="concept__pillar" data-reveal style="--delay: 160ms">
+                <span class="concept__pillar-icon"><i class="ti ti-headset" aria-hidden="true"></i></span>
+                <h3>Acompañamiento</h3>
+                <p>Presentes antes, durante y después del lanzamiento de tu proyecto.</p>
+            </div>
         </div>
     </div>
 </section>

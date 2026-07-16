@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{{ $title ?? 'Servicios y Desarrollo JC — Diseñamos para la Capa 8' }}</title>
-    <meta name="description" content="{{ $description ?? 'Servicios y Desarrollo JC construye sitios web, tiendas en línea y software a medida pensando siempre en la Capa 8 del modelo OSI: las personas.' }}">
+    <meta name="description" content="{{ $description ?? 'Servicios y Desarrollo JC construye sitios web, tiendas en línea y software a medida pensando siempre en la Capa 8: las personas que los usan.' }}">
 
     <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}">
     <link rel="icon" type="image/png" sizes="16x16" href="{{ asset('favicon-16x16.png') }}">

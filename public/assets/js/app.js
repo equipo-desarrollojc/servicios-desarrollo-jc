@@ -114,37 +114,6 @@
         });
     }
 
-    /* ================= Capa 8 scroll-driven stack ================= */
-    function initLayerStack() {
-        var section = document.getElementById("capa8");
-        var rows = document.querySelectorAll(".layer-row");
-        var layerEight = document.getElementById("layerEight");
-        if (!section || !rows.length) return;
-
-        var update = function () {
-            var rect = section.getBoundingClientRect();
-            var viewportH = window.innerHeight;
-
-            var start = viewportH * 0.85;
-            var end = -rect.height * 0.35;
-            var raw = (start - rect.top) / (start - end);
-            var progress = Math.min(Math.max(raw, 0), 1);
-
-            var activeCount = Math.round(progress * rows.length);
-            rows.forEach(function (row, i) {
-                row.classList.toggle("is-active", i < activeCount);
-            });
-
-            if (layerEight) {
-                layerEight.classList.toggle("is-active", progress > 0.85);
-            }
-        };
-
-        update();
-        window.addEventListener("scroll", update, { passive: true });
-        window.addEventListener("resize", update);
-    }
-
     /* ================= Hero pointer-reactive particle network ================= */
     function initHeroCanvas() {
         var canvas = document.getElementById("heroCanvas");
@@ -322,7 +291,6 @@
         initScrollReveal();
         initFaq();
         initVideoFallback();
-        initLayerStack();
         initHeroCanvas();
         initActiveNavLinks();
     });

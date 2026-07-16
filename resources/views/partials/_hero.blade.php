@@ -5,12 +5,12 @@
     <div class="container hero__inner">
         <p class="eyebrow" data-reveal>
             <span class="eyebrow__dot"></span>
-            Modelo OSI · Capas 1–7 técnicas + Capa 8
+            Capa 8 · Pensado para el usuario
         </p>
 
         <h1 class="hero__title" data-reveal>
-            Construimos las 7 capas técnicas.
-            <span class="hero__title-accent">Diseñamos para la Capa 8.</span>
+            Construimos tecnología
+            <span class="hero__title-accent">pensada para la Capa 8.</span>
         </h1>
 
         <p class="hero__subtitle" data-reveal>
