@@ -108,11 +108,14 @@ export type Project = {
   year: string;
   /** Tono del degradado de portada y del brillo de fondo al hacer hover. */
   hue: { from: string; to: string; glow: string };
+  /** Enlace a la demo o al proyecto en vivo (se abre en otra pestaña). */
+  url?: string;
   /** Ruta opcional a un video en /public que se reproduce al hacer hover. */
   video?: string;
 };
 
-// Proyectos de muestra: reemplaza títulos, categorías y (opcionalmente) videos reales.
+// Proyectos de muestra con demos HTML ilustrativas en /public/demos.
+// Cuando haya proyectos reales: cambia título/categoría y apunta `url` al sitio en vivo.
 export const projects: Project[] = [
   {
     id: "gestion-escolar",
@@ -120,6 +123,7 @@ export const projects: Project[] = [
     category: "Sistema web",
     year: "2025",
     hue: { from: "#1d4ed8", to: "#7c3aed", glow: "#0a1024" },
+    url: "/demos/gestion-escolar.html",
   },
   {
     id: "tienda-linea",
@@ -127,6 +131,7 @@ export const projects: Project[] = [
     category: "E-commerce",
     year: "2025",
     hue: { from: "#7c3aed", to: "#db2777", glow: "#140a20" },
+    url: "/demos/tienda-linea.html",
   },
   {
     id: "mesa-ayuda",
@@ -134,6 +139,7 @@ export const projects: Project[] = [
     category: "Automatización",
     year: "2026",
     hue: { from: "#0891b2", to: "#2563eb", glow: "#061420" },
+    url: "/demos/mesa-ayuda.html",
   },
   {
     id: "panel-operaciones",
@@ -141,6 +147,7 @@ export const projects: Project[] = [
     category: "Dashboard",
     year: "2026",
     hue: { from: "#ea580c", to: "#f59e0b", glow: "#160d05" },
+    url: "/demos/panel-operaciones.html",
   },
 ];
 

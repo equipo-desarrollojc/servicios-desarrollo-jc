@@ -52,7 +52,7 @@ export function Portfolio() {
           {projects.map((project, i) => (
             <Reveal key={project.id} delay={(i % 2) * 0.1}>
               <article
-                data-cursor-label="Ver"
+                data-cursor-label="Ver demo"
                 onMouseEnter={(e) => {
                   tintBackground(project.hue.glow);
                   playVideo(e, true);
@@ -63,7 +63,13 @@ export function Portfolio() {
                 }}
                 className="group"
               >
-                <div className="relative aspect-[4/3] overflow-clip rounded-2xl border border-line/70">
+                <a
+                  href={project.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label={`Ver demo: ${project.title}`}
+                  className="relative block aspect-[4/3] overflow-clip rounded-2xl border border-line/70"
+                >
                   <ProjectCover project={project} index={i} />
                   {project.video ? (
                     <video
@@ -79,7 +85,7 @@ export function Portfolio() {
                   <span className="absolute right-5 bottom-5 grid size-11 translate-y-3 place-items-center rounded-full bg-ink text-bg opacity-0 transition-all duration-500 group-hover:translate-y-0 group-hover:opacity-100">
                     <ArrowUpRightIcon className="size-5" />
                   </span>
-                </div>
+                </a>
 
                 <div className="mt-5 flex items-baseline justify-between gap-4">
                   <h3 className="font-display text-lg font-bold tracking-tight transition-colors duration-300 group-hover:text-accent md:text-xl">

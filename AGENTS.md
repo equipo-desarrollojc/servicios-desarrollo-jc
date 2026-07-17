@@ -65,8 +65,11 @@ src/app/api/contact/route.ts  Guarda mensajes en data/messages.jsonl
   reveals; todo respeta `prefers-reduced-motion` (hook `useReducedMotion`).
 - El intro del hero espera al preloader vía contexto `useApp().ready`.
 - Los **proyectos, cifras y testimonios son PLACEHOLDERS** — reemplazar por
-  reales en `data.ts` cuando el cliente los entregue. `Project.video`
-  acepta un mp4 en `public/videos/` que se reproduce al hover.
+  reales en `data.ts` cuando el cliente los entregue. Cada proyecto enlaza a
+  una **demo HTML ilustrativa en `public/demos/`** (estáticas, autocontenidas,
+  con banner "DEMO ILUSTRATIVA"); cuando haya proyectos reales, apunta
+  `Project.url` al sitio en vivo y borra la demo. `Project.video` acepta un
+  mp4 en `public/videos/` que se reproduce al hover.
 - Logos con fondo blanco en `public/brand/` (se muestran dentro de chips
   blancos redondeados en header/footer).
 

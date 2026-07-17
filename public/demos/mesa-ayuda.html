@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Demo — Mesa de ayuda y tickets</title>
+<style>
+  :root { --bg:#05070d; --surface:#0a0f1c; --line:#1c2438; --ink:#eef1f7; --muted:#929cb3; --accent:#0891b2; --blue:#4f8cff; --ok:#22c55e; --warn:#f59e0b; --rose:#ff4d7e; }
+  * { margin:0; box-sizing:border-box; font-family:system-ui,Segoe UI,sans-serif; }
+  body { background:var(--bg); color:var(--ink); }
+  .banner { background:var(--accent); color:#fff; text-align:center; font-size:12px; padding:6px; letter-spacing:.08em; }
+  header { padding:20px 26px; border-bottom:1px solid var(--line); display:flex; justify-content:space-between; align-items:center; }
+  header h1 { font-size:17px; } header h1 b { color:var(--blue); }
+  .new { background:var(--blue); color:#fff; text-decoration:none; font-size:13px; font-weight:600; padding:9px 16px; border-radius:99px; }
+  .board { display:grid; grid-template-columns:repeat(auto-fit,minmax(240px,1fr)); gap:16px; padding:24px; max-width:1150px; margin:0 auto; }
+  .col h2 { font-size:12px; text-transform:uppercase; letter-spacing:.1em; color:var(--muted); margin-bottom:12px; display:flex; gap:8px; align-items:center; }
+  .dot { width:8px; height:8px; border-radius:99px; }
+  .t { background:var(--surface); border:1px solid var(--line); border-left:3px solid var(--blue); border-radius:12px; padding:13px; margin-bottom:10px; }
+  .t h3 { font-size:13.5px; } .t p { color:var(--muted); font-size:12px; margin-top:5px; }
+  .t .meta { display:flex; justify-content:space-between; margin-top:10px; font-size:11px; color:var(--muted); }
+  .t.urg { border-left-color:var(--rose); } .t.med { border-left-color:var(--warn); } .t.done { border-left-color:var(--ok); opacity:.75; }
+  .tag { padding:2px 8px; border-radius:99px; font-weight:600; }
+  .tag.urg { background:rgba(255,77,126,.14); color:var(--rose); } .tag.med { background:rgba(245,158,11,.14); color:var(--warn); }
+  .tag.low { background:rgba(79,140,255,.14); color:var(--blue); } .tag.ok { background:rgba(34,197,94,.14); color:var(--ok); }
+</style>
+</head>
+<body>
+<div class="banner">DEMO ILUSTRATIVA · SERVICIOS Y DESARROLLO JC</div>
+<header><h1>Mesa de ayuda <b>· Soporte TI</b></h1><a class="new" href="#">+ Nuevo ticket</a></header>
+<div class="board">
+  <div class="col">
+    <h2><span class="dot" style="background:var(--rose)"></span> Abiertos (2)</h2>
+    <div class="t urg"><h3>#1042 — Caída del sistema de facturación</h3><p>Los cajeros no pueden emitir facturas desde las 9:10 am.</p><div class="meta"><span class="tag urg">Urgente</span><span>hace 12 min</span></div></div>
+    <div class="t med"><h3>#1041 — Impresora de bodega sin conexión</h3><p>No responde al ping; se revisó el cable de red.</p><div class="meta"><span class="tag med">Media</span><span>hace 1 h</span></div></div>
+  </div>
+  <div class="col">
+    <h2><span class="dot" style="background:var(--warn)"></span> En proceso (2)</h2>
+    <div class="t med"><h3>#1039 — Correo corporativo rebota mensajes</h3><p>Asignado a Kevin · revisión de registros DNS.</p><div class="meta"><span class="tag med">Media</span><span>hace 3 h</span></div></div>
+    <div class="t"><h3>#1037 — Acceso nuevo para contadora</h3><p>Creación de usuario y permisos del módulo de reportes.</p><div class="meta"><span class="tag low">Baja</span><span>ayer</span></div></div>
+  </div>
+  <div class="col">
+    <h2><span class="dot" style="background:var(--ok)"></span> Resueltos (2)</h2>
+    <div class="t done"><h3>#1036 — Restablecer contraseña de gerencia</h3><p>Resuelto por Alejandra · verificado con el usuario.</p><div class="meta"><span class="tag ok">Cerrado</span><span>ayer</span></div></div>
+    <div class="t done"><h3>#1033 — Actualización de antivirus en 14 equipos</h3><p>Despliegue completado sin incidencias.</p><div class="meta"><span class="tag ok">Cerrado</span><span>hace 2 días</span></div></div>
+  </div>
+</div>
+</body>
+</html>

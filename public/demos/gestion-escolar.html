@@ -1,0 +1,69 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Demo — Plataforma de gestión escolar</title>
+<style>
+  :root { --bg:#05070d; --surface:#0a0f1c; --elev:#111830; --line:#1c2438; --ink:#eef1f7; --muted:#929cb3; --accent:#4f8cff; --ok:#22c55e; --warn:#f59e0b; }
+  * { margin:0; box-sizing:border-box; font-family:system-ui,Segoe UI,sans-serif; }
+  body { background:var(--bg); color:var(--ink); min-height:100vh; display:flex; flex-direction:column; }
+  .banner { background:var(--accent); color:#fff; text-align:center; font-size:12px; padding:6px; letter-spacing:.08em; }
+  .app { flex:1; display:grid; grid-template-columns:220px 1fr; }
+  aside { background:var(--surface); border-right:1px solid var(--line); padding:20px 14px; }
+  .logo { font-weight:800; font-size:15px; margin-bottom:24px; } .logo b { color:var(--accent); }
+  nav a { display:block; padding:10px 12px; border-radius:10px; color:var(--muted); text-decoration:none; font-size:13.5px; margin-bottom:4px; }
+  nav a.act { background:var(--elev); color:var(--ink); border-left:3px solid var(--accent); }
+  main { padding:26px; }
+  h1 { font-size:20px; margin-bottom:4px; } .sub { color:var(--muted); font-size:13px; margin-bottom:22px; }
+  .cards { display:grid; grid-template-columns:repeat(auto-fit,minmax(160px,1fr)); gap:14px; margin-bottom:24px; }
+  .card { background:var(--surface); border:1px solid var(--line); border-radius:14px; padding:16px; }
+  .card .n { font-size:26px; font-weight:800; } .card .l { color:var(--muted); font-size:12px; margin-top:4px; }
+  .card .n.b { color:var(--accent); } .card .n.g { color:var(--ok); } .card .n.o { color:var(--warn); }
+  table { width:100%; border-collapse:collapse; background:var(--surface); border:1px solid var(--line); border-radius:14px; overflow:hidden; }
+  th,td { text-align:left; padding:12px 14px; font-size:13px; }
+  th { color:var(--muted); font-weight:600; border-bottom:1px solid var(--line); font-size:11.5px; text-transform:uppercase; letter-spacing:.06em; }
+  tr+tr td { border-top:1px solid var(--line); }
+  .pill { padding:3px 10px; border-radius:99px; font-size:11.5px; font-weight:600; }
+  .pill.ok { background:rgba(34,197,94,.14); color:var(--ok); }
+  .pill.pend { background:rgba(245,158,11,.14); color:var(--warn); }
+  @media (max-width:720px){ .app{grid-template-columns:1fr} aside{display:none} }
+</style>
+</head>
+<body>
+<div class="banner">DEMO ILUSTRATIVA · SERVICIOS Y DESARROLLO JC</div>
+<div class="app">
+  <aside>
+    <div class="logo">Colegio <b>Horizonte</b></div>
+    <nav>
+      <a class="act" href="#">📊 Panel general</a>
+      <a href="#">🎓 Estudiantes</a>
+      <a href="#">🧾 Pagos y matrícula</a>
+      <a href="#">📚 Calificaciones</a>
+      <a href="#">👨‍👩‍👧 Padres de familia</a>
+    </nav>
+  </aside>
+  <main>
+    <h1>Panel general</h1>
+    <p class="sub">Año lectivo 2026 · Actualizado hoy</p>
+    <div class="cards">
+      <div class="card"><div class="n b">642</div><div class="l">Estudiantes activos</div></div>
+      <div class="card"><div class="n g">96%</div><div class="l">Matrícula al día</div></div>
+      <div class="card"><div class="n o">27</div><div class="l">Pagos pendientes</div></div>
+      <div class="card"><div class="n">18</div><div class="l">Docentes</div></div>
+    </div>
+    <table>
+      <thead><tr><th>Estudiante</th><th>Grado</th><th>Encargado</th><th>Mensualidad</th></tr></thead>
+      <tbody>
+        <tr><td>Valeria Núñez</td><td>7.º A</td><td>Karla Núñez</td><td><span class="pill ok">Pagado</span></td></tr>
+        <tr><td>Diego Fuentes</td><td>9.º B</td><td>Marco Fuentes</td><td><span class="pill ok">Pagado</span></td></tr>
+        <tr><td>Sofía Lagos</td><td>4.º A</td><td>Rosa Lagos</td><td><span class="pill pend">Pendiente</span></td></tr>
+        <tr><td>Andrés Pineda</td><td>11.º C</td><td>Julia Pineda</td><td><span class="pill ok">Pagado</span></td></tr>
+        <tr><td>Camila Reyes</td><td>6.º B</td><td>Óscar Reyes</td><td><span class="pill pend">Pendiente</span></td></tr>
+      </tbody>
+    </table>
+  </main>
+</div>
+</body>
+</html>
