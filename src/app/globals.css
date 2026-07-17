@@ -1,0 +1,155 @@
+@import "tailwindcss";
+@import "../styles/process-modal.css";
+
+@theme {
+  --color-bg: #05070d;
+  --color-surface: #0a0f1c;
+  --color-elevated: #111830;
+  --color-ink: #eef1f7;
+  --color-muted: #929cb3;
+  --color-line: #1c2438;
+  --color-accent: #4f8cff;
+  --color-violet: #a855f7;
+  --color-rose: #ff4d7e;
+
+  --font-display: var(--font-space-grotesk), ui-sans-serif, system-ui, sans-serif;
+  --font-body: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+}
+
+body {
+  background-color: var(--color-bg);
+  color: var(--color-ink);
+  font-family: var(--font-body);
+  -webkit-font-smoothing: antialiased;
+  overflow-x: clip;
+}
+
+::selection {
+  background-color: var(--color-accent);
+  color: #fff;
+}
+
+::-webkit-scrollbar {
+  width: 10px;
+}
+::-webkit-scrollbar-track {
+  background: var(--color-bg);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--color-line);
+  border-radius: 999px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #2a3550;
+}
+
+@utility container-x {
+  margin-inline: auto;
+  width: 100%;
+  max-width: 90rem;
+  padding-inline: 1.5rem;
+
+  @media (width >= 48rem) {
+    padding-inline: 3rem;
+  }
+  @media (width >= 64rem) {
+    padding-inline: 4.5rem;
+  }
+}
+
+@utility section-pad {
+  padding-block: 7rem;
+
+  @media (width >= 48rem) {
+    padding-block: 10rem;
+  }
+}
+
+/* Degradado de marca usado en titulares destacados */
+@utility text-gradient {
+  background-image: linear-gradient(
+    92deg,
+    var(--color-accent) 0%,
+    var(--color-violet) 55%,
+    var(--color-rose) 110%
+  );
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+/* Grano sutil sobre toda la página para dar textura de estudio */
+.noise::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: 60;
+  pointer-events: none;
+  opacity: 0.035;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+/* El cursor personalizado sustituye al nativo solo cuando está activo */
+html.custom-cursor,
+html.custom-cursor a,
+html.custom-cursor button,
+html.custom-cursor [role="button"] {
+  cursor: none;
+}
+
+/* Los bloques animados por scroll parten ocultos solo cuando hay JS (sin JS todo es visible) */
+html.js [data-reveal] {
+  opacity: 0;
+}
+
+@keyframes marquee {
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+.animate-marquee {
+  animation: marquee 40s linear infinite;
+}
+
+@keyframes scroll-cue {
+  0% {
+    transform: scaleY(0);
+    transform-origin: top;
+  }
+  45% {
+    transform: scaleY(1);
+    transform-origin: top;
+  }
+  55% {
+    transform: scaleY(1);
+    transform-origin: bottom;
+  }
+  100% {
+    transform: scaleY(0);
+    transform-origin: bottom;
+  }
+}
+
+.animate-scroll-cue {
+  animation: scroll-cue 2s ease-in-out infinite;
+}
+
+:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 3px;
+  border-radius: 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html.js [data-reveal] {
+    opacity: 1;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.15s !important;
+  }
+}

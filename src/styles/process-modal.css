@@ -1,0 +1,402 @@
+/*
+ * Escenas SVG animadas del modal "Nuestro proceso".
+ * Cada escena se monta solo cuando está activa, así que las animaciones
+ * (en bucle) arrancan al montar. Solo se anima transform/opacity/fill.
+ */
+
+.pm-scene {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.pm-scene [class^="s"],
+.pm-scene [class*=" s"] {
+  transform-box: fill-box;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .pm-scene * {
+    animation: none !important;
+  }
+}
+
+/* ---------- Escena 1: contacto (6s) ---------- */
+.s1-line {
+  transform-origin: left center;
+}
+
+.pm-scene .s1-line1 { animation: pmS1L1 6s linear infinite; }
+.pm-scene .s1-line2 { animation: pmS1L2 6s linear infinite; }
+.pm-scene .s1-line3 { animation: pmS1L3 6s linear infinite; }
+
+@keyframes pmS1L1 { 0%, 6% { transform: scaleX(0); } 16%, 100% { transform: scaleX(1); } }
+@keyframes pmS1L2 { 0%, 18% { transform: scaleX(0); } 28%, 100% { transform: scaleX(1); } }
+@keyframes pmS1L3 { 0%, 30% { transform: scaleX(0); } 40%, 100% { transform: scaleX(1); } }
+
+.s1-plane {
+  opacity: 0;
+  transform: translate(230px, 205px);
+}
+
+.pm-scene .s1-plane { animation: pmS1Plane 6s ease-in-out infinite; }
+
+@keyframes pmS1Plane {
+  0%, 44% { transform: translate(230px, 205px) rotate(-14deg); opacity: 0; }
+  48% { opacity: 1; }
+  62% { transform: translate(398px, 156px) rotate(4deg); opacity: 1; }
+  66%, 100% { transform: translate(398px, 156px) rotate(4deg); opacity: 0; }
+}
+
+.s1-notif {
+  transform-origin: center;
+}
+
+.pm-scene .s1-notif { animation: pmS1Notif 6s ease infinite; }
+
+@keyframes pmS1Notif {
+  0%, 64% { transform: scale(0); }
+  70% { transform: scale(1.3); }
+  74%, 100% { transform: scale(1); }
+}
+
+.s1-ring {
+  opacity: 0;
+  transform-origin: center;
+}
+
+.pm-scene .s1-ring { animation: pmS1Ring 6s ease-out infinite; }
+
+@keyframes pmS1Ring {
+  0%, 66% { transform: scale(0.4); opacity: 0; }
+  70% { opacity: 0.8; }
+  88%, 100% { transform: scale(2.1); opacity: 0; }
+}
+
+/* ---------- Escena 2: planificación (8s) ---------- */
+.s2-buba,
+.s2-bubb {
+  transform-origin: center;
+}
+
+.pm-scene .s2-buba { animation: pmS2BubA 8s ease infinite; }
+.pm-scene .s2-bubb { animation: pmS2BubB 8s ease infinite; }
+
+@keyframes pmS2BubA {
+  0% { opacity: 0; transform: scale(0.9); }
+  5% { opacity: 1; transform: scale(1); }
+  30% { opacity: 1; }
+  36%, 100% { opacity: 0; transform: scale(1); }
+}
+
+@keyframes pmS2BubB {
+  0%, 38% { opacity: 0; transform: scale(0.9); }
+  44% { opacity: 1; transform: scale(1); }
+  62% { opacity: 1; }
+  68%, 100% { opacity: 0; transform: scale(1); }
+}
+
+.pm-scene .s2-dot { animation: pmS2Dot 8s linear infinite; }
+.pm-scene .s2-dotb { animation: pmS2DotB 8s linear infinite; }
+
+@keyframes pmS2Dot {
+  0%, 6% { opacity: 0.25; }
+  9% { opacity: 1; }
+  13% { opacity: 0.25; }
+  17% { opacity: 1; }
+  21% { opacity: 0.25; }
+  25% { opacity: 1; }
+  30%, 100% { opacity: 0.25; }
+}
+
+@keyframes pmS2DotB {
+  0%, 42% { opacity: 0.25; }
+  46% { opacity: 1; }
+  50% { opacity: 0.25; }
+  54% { opacity: 1; }
+  58% { opacity: 0.25; }
+  62%, 100% { opacity: 0.25; }
+}
+
+.s2-halo { opacity: 0.3; }
+.pm-scene .s2-halo { animation: pmS2Halo 8s ease infinite; }
+
+@keyframes pmS2Halo {
+  0%, 68% { opacity: 0; }
+  76%, 100% { opacity: 0.35; }
+}
+
+.pm-scene .s2-bulb { animation: pmS2Bulb 8s ease infinite; }
+
+@keyframes pmS2Bulb {
+  0%, 68% { fill: #232b42; }
+  76%, 100% { fill: #ffd166; }
+}
+
+.s2-rays {
+  transform-origin: center;
+}
+
+.pm-scene .s2-rays { animation: pmS2Rays 8s ease infinite; }
+
+@keyframes pmS2Rays {
+  0%, 70% { opacity: 0; transform: scale(0.5); }
+  80%, 100% { opacity: 1; transform: scale(1); }
+}
+
+.pm-scene .s2-wire1 { animation: pmS2Wire1 8s ease infinite; }
+.pm-scene .s2-wire2 { animation: pmS2Wire2 8s ease infinite; }
+.pm-scene .s2-wire3 { animation: pmS2Wire3 8s ease infinite; }
+
+@keyframes pmS2Wire1 { 0%, 72% { opacity: 0; transform: translateY(8px); } 78%, 100% { opacity: 1; transform: translateY(0); } }
+@keyframes pmS2Wire2 { 0%, 79% { opacity: 0; transform: translateY(8px); } 85%, 100% { opacity: 1; transform: translateY(0); } }
+@keyframes pmS2Wire3 { 0%, 86% { opacity: 0; transform: translateY(8px); } 92%, 100% { opacity: 0.7; transform: translateY(0); } }
+
+/* ---------- Escena 3: desarrollo (5.5s) ---------- */
+.s3-code {
+  transform-origin: left center;
+}
+
+.pm-scene .s3-c1 { animation: pmS3C1 5.5s linear infinite; }
+.pm-scene .s3-c2 { animation: pmS3C2 5.5s linear infinite; }
+.pm-scene .s3-c3 { animation: pmS3C3 5.5s linear infinite; }
+.pm-scene .s3-c4 { animation: pmS3C4 5.5s linear infinite; }
+.pm-scene .s3-c5 { animation: pmS3C5 5.5s linear infinite; }
+
+@keyframes pmS3C1 { 0%, 2% { transform: scaleX(0); } 12%, 100% { transform: scaleX(1); } }
+@keyframes pmS3C2 { 0%, 14% { transform: scaleX(0); } 24%, 100% { transform: scaleX(1); } }
+@keyframes pmS3C3 { 0%, 26% { transform: scaleX(0); } 36%, 100% { transform: scaleX(1); } }
+@keyframes pmS3C4 { 0%, 38% { transform: scaleX(0); } 48%, 100% { transform: scaleX(1); } }
+@keyframes pmS3C5 { 0%, 50% { transform: scaleX(0); } 60%, 100% { transform: scaleX(1); } }
+
+.pm-scene .s3-cursor { animation: pmS3Cursor 0.9s steps(1) infinite; }
+
+@keyframes pmS3Cursor {
+  0%, 49% { opacity: 1; }
+  50%, 100% { opacity: 0; }
+}
+
+.s3-progress {
+  transform-origin: left center;
+}
+
+.pm-scene .s3-progress { animation: pmS3Prog 5.5s linear infinite; }
+
+@keyframes pmS3Prog {
+  0% { transform: scaleX(0); }
+  90%, 100% { transform: scaleX(1); }
+}
+
+.s3-steam { opacity: 0; }
+.pm-scene .s3-st1 { animation: pmS3Steam 2.6s ease-out infinite; }
+.pm-scene .s3-st2 { animation: pmS3Steam 2.6s ease-out 1.2s infinite; }
+
+@keyframes pmS3Steam {
+  0% { opacity: 0; transform: translateY(0); }
+  35% { opacity: 0.6; }
+  100% { opacity: 0; transform: translateY(-12px); }
+}
+
+.pm-scene .s3-dev { animation: pmS3Dev 1.9s ease-in-out infinite alternate; }
+
+@keyframes pmS3Dev {
+  from { transform: translateY(0); }
+  to { transform: translateY(3px); }
+}
+
+/* ---------- Escena 4: presentación y cambios (8s) ---------- */
+.s4-bub {
+  transform-origin: center;
+}
+
+.pm-scene .s4-bub { animation: pmS4Bub 8s ease infinite; }
+
+@keyframes pmS4Bub {
+  0%, 26% { opacity: 0; transform: scale(0.9); }
+  32% { opacity: 1; transform: scale(1); }
+  88% { opacity: 1; }
+  94%, 100% { opacity: 0; }
+}
+
+.s4-mark {
+  transform-origin: center;
+}
+
+.pm-scene .s4-m1 { animation: pmS4M1 8s ease infinite; }
+.pm-scene .s4-m2 { animation: pmS4M2 8s ease infinite; }
+.pm-scene .s4-m3 { animation: pmS4M3 8s ease infinite; }
+
+@keyframes pmS4M1 {
+  0%, 42% { transform: scale(0); opacity: 1; }
+  48% { transform: scale(1.35); }
+  52%, 92% { transform: scale(1); opacity: 1; }
+  98%, 100% { transform: scale(1); opacity: 0; }
+}
+
+@keyframes pmS4M2 {
+  0%, 54% { transform: scale(0); opacity: 1; }
+  60% { transform: scale(1.35); }
+  64%, 92% { transform: scale(1); opacity: 1; }
+  98%, 100% { transform: scale(1); opacity: 0; }
+}
+
+@keyframes pmS4M3 {
+  0%, 66% { transform: scale(0); opacity: 1; }
+  72% { transform: scale(1.35); }
+  76%, 92% { transform: scale(1); opacity: 1; }
+  98%, 100% { transform: scale(1); opacity: 0; }
+}
+
+/* ---------- Escena 5: ajustes y aprobación (12s) ---------- */
+.s5-mark {
+  transform-origin: center;
+  opacity: 0;
+}
+
+.s5-mark circle { fill: #22c55e; }
+.s5-mark path { opacity: 1; }
+
+.pm-scene .s5-m1 { animation: pmS5M1 12s ease infinite; }
+.pm-scene .s5-m2 { animation: pmS5M2 12s ease infinite; }
+.pm-scene .s5-m3 { animation: pmS5M3 12s ease infinite; }
+
+@keyframes pmS5M1 {
+  0% { opacity: 1; transform: scale(1); }
+  8% { transform: scale(1); }
+  10% { transform: scale(1.3); }
+  12%, 32% { transform: scale(1); opacity: 1; }
+  36%, 100% { opacity: 0; }
+}
+
+@keyframes pmS5M2 {
+  0% { opacity: 1; transform: scale(1); }
+  14% { transform: scale(1); }
+  16% { transform: scale(1.3); }
+  18%, 32% { transform: scale(1); opacity: 1; }
+  36%, 100% { opacity: 0; }
+}
+
+@keyframes pmS5M3 {
+  0% { opacity: 1; transform: scale(1); }
+  20% { transform: scale(1); }
+  22% { transform: scale(1.3); }
+  24%, 32% { transform: scale(1); opacity: 1; }
+  36%, 100% { opacity: 0; }
+}
+
+.pm-scene .s5-m1 circle { animation: pmS5Fill1 12s linear infinite; }
+.pm-scene .s5-m2 circle { animation: pmS5Fill2 12s linear infinite; }
+.pm-scene .s5-m3 circle { animation: pmS5Fill3 12s linear infinite; }
+
+@keyframes pmS5Fill1 { 0%, 8% { fill: #ff9f43; } 11%, 100% { fill: #22c55e; } }
+@keyframes pmS5Fill2 { 0%, 14% { fill: #ff9f43; } 17%, 100% { fill: #22c55e; } }
+@keyframes pmS5Fill3 { 0%, 20% { fill: #ff9f43; } 23%, 100% { fill: #22c55e; } }
+
+.pm-scene .s5-m1 path { animation: pmS5Chk1 12s linear infinite; }
+.pm-scene .s5-m2 path { animation: pmS5Chk2 12s linear infinite; }
+.pm-scene .s5-m3 path { animation: pmS5Chk3 12s linear infinite; }
+
+@keyframes pmS5Chk1 { 0%, 9% { opacity: 0; } 12%, 100% { opacity: 1; } }
+@keyframes pmS5Chk2 { 0%, 15% { opacity: 0; } 18%, 100% { opacity: 1; } }
+@keyframes pmS5Chk3 { 0%, 21% { opacity: 0; } 24%, 100% { opacity: 1; } }
+
+.s5-wrench {
+  transform-origin: center;
+  opacity: 0;
+}
+
+.pm-scene .s5-wrench { animation: pmS5Wrench 12s ease-in-out infinite; }
+
+@keyframes pmS5Wrench {
+  0% { opacity: 1; transform: rotate(0deg); }
+  4% { transform: rotate(-20deg); }
+  8% { transform: rotate(14deg); }
+  12% { transform: rotate(-20deg); }
+  16% { transform: rotate(14deg); }
+  20% { transform: rotate(-12deg); }
+  26% { transform: rotate(0deg); opacity: 1; }
+  32%, 100% { opacity: 0; }
+}
+
+.pm-scene .s5-content { animation: pmS5Content 12s ease infinite; }
+
+@keyframes pmS5Content {
+  0%, 34% { opacity: 1; transform: translateY(0); }
+  38% { opacity: 0; transform: translateY(8px); }
+  42% { opacity: 0; transform: translateY(-8px); }
+  48%, 100% { opacity: 1; transform: translateY(0); }
+}
+
+.pm-scene .s5-glow { animation: pmS5Glow 12s ease infinite; }
+
+@keyframes pmS5Glow {
+  0%, 48% { stroke: #2a3350; }
+  53%, 60% { stroke: #4f8cff; }
+  66%, 100% { stroke: #2a3350; }
+}
+
+.s5-thumb {
+  transform-origin: center;
+}
+
+.pm-scene .s5-thumb { animation: pmS5Thumb 12s ease infinite; }
+
+@keyframes pmS5Thumb {
+  0%, 62% { transform: scale(0); }
+  67% { transform: scale(1.25); }
+  70%, 100% { transform: scale(1); }
+}
+
+.s5-check {
+  transform-origin: center;
+}
+
+.pm-scene .s5-check { animation: pmS5Check 12s ease infinite; }
+
+@keyframes pmS5Check {
+  0%, 70% { opacity: 0; transform: scale(0.6); }
+  75% { opacity: 1; transform: scale(1.12); }
+  78%, 100% { opacity: 1; transform: scale(1); }
+}
+
+.s5-check-path {
+  stroke-dasharray: 60;
+  stroke-dashoffset: 0;
+}
+
+.pm-scene .s5-check-path { animation: pmS5CheckPath 12s linear infinite; }
+
+@keyframes pmS5CheckPath {
+  0%, 74% { stroke-dashoffset: 60; }
+  84%, 100% { stroke-dashoffset: 0; }
+}
+
+.s5-cf {
+  opacity: 0;
+  transform-origin: center;
+}
+
+.pm-scene .s5-cf1,
+.pm-scene .s5-cf4 { animation: pmS5CfA 12s ease-in infinite; }
+.pm-scene .s5-cf2,
+.pm-scene .s5-cf5 { animation: pmS5CfB 12s ease-in 0.15s infinite; }
+.pm-scene .s5-cf3,
+.pm-scene .s5-cf6 { animation: pmS5CfC 12s ease-in 0.3s infinite; }
+
+@keyframes pmS5CfA {
+  0%, 74% { opacity: 0; transform: translate(0, 0) rotate(0deg); }
+  78% { opacity: 1; }
+  94%, 100% { opacity: 0; transform: translate(-16px, 85px) rotate(-220deg); }
+}
+
+@keyframes pmS5CfB {
+  0%, 74% { opacity: 0; transform: translate(0, 0) rotate(0deg); }
+  78% { opacity: 1; }
+  94%, 100% { opacity: 0; transform: translate(10px, 95px) rotate(200deg); }
+}
+
+@keyframes pmS5CfC {
+  0%, 74% { opacity: 0; transform: translate(0, 0) rotate(0deg); }
+  78% { opacity: 1; }
+  94%, 100% { opacity: 0; transform: translate(22px, 78px) rotate(300deg); }
+}

@@ -1,75 +1,62 @@
-# Servicios y Desarrollo JC
+# Servicios y Desarrollo JC — Landing
 
-Landing page del emprendimiento **Servicios y Desarrollo JC**, construida con Laravel.
-Eslogan: **"No compres software genérico. Constrúyelo a tu medida."** Todo el contenido
-está escrito en lenguaje de cliente, sin tecnicismos, con un flujo de trabajo animado
-en 5 pasos como pieza central.
+Landing page inmersiva del emprendimiento **Servicios y Desarrollo JC**.
+Eslogan: **"No compres software genérico. Constrúyelo a tu medida."**
+
+Construida con **Next.js 16 + TypeScript + Tailwind CSS 4 + GSAP (ScrollTrigger/SplitText) + Lenis + Framer Motion**. Sin Three.js: el globo 3D del hero es un canvas 2D proyectado a mano (240 partículas conectadas, 60 FPS).
+
+## Experiencia
+
+- **Preloader** con contador y telón de salida.
+- **Hero**: globo 3D de partículas reactivo al puntero, titular letra por letra, parallax al hacer scroll.
+- **Cursor personalizado** (punto + anillo con etiqueta contextual) y **scroll suave** con Lenis.
+- **Servicios**: 6 cards con hover de elevación e iconografía propia.
+- **Proceso**: timeline de 5 pasos dibujada con el scroll + **modal con 5 escenas SVG animadas** (flechas del teclado para navegar).
+- **Proyectos**: grid con zoom, fondo de sección que se tiñe al hover y soporte de video por proyecto.
+- **Tecnologías**: marquesinas infinitas en direcciones opuestas.
+- **Estadísticas** con contadores animados, **testimonios** en carrusel infinito, **FAQ** en acordeón y **contacto** con formulario + WhatsApp.
+- Accesible (semántica, teclado, `prefers-reduced-motion`) y optimizado para SEO (metadata, JSON-LD, robots, sitemap).
 
 ## Desarrollo local
 
-Requiere PHP 8.3+ y Composer.
+Requiere Node 20+.
 
 ```bash
-composer install
-cp .env.example .env
-php artisan key:generate
-touch database/database.sqlite
-php artisan migrate
-php artisan serve
+npm install
+npm run dev       # http://localhost:3000
+npm run build     # build de producción (salida standalone)
 ```
 
-El sitio queda disponible en `http://127.0.0.1:8000`.
+## Estructura
 
-No se usa Vite/Node: los estilos y el JavaScript viven directamente en
-`public/assets/css/app.css` y `public/assets/js/app.js`, sin paso de build.
+```
+src/app/                    Layout (SEO), página, API de contacto, robots, sitemap
+src/components/effects/     Preloader, SmoothScroll (Lenis), CustomCursor, AppProvider
+src/components/ui/          RevealText, Reveal, MagneticButton, Marquee, contador, etc.
+src/components/sections/    Hero + globo, Servicios, Proceso + modal, Proyectos, ...
+src/components/layout/      Header, Footer, botón flotante de WhatsApp
+src/lib/                    site.ts (datos del negocio), data.ts (contenido), gsap.ts
+src/styles/                 Animaciones CSS de las escenas del proceso
+public/brand/               Isotipo, isologo y logo horizontal
+```
 
-### Variables de entorno relevantes
+Para cambiar textos, servicios, proyectos, cifras o testimonios edita
+`src/lib/data.ts` y `src/lib/site.ts` (WhatsApp, correo, URL).
 
-| Variable | Uso |
-|---|---|
-| `CONTACT_WHATSAPP_NUMBER` | Número usado en los botones de WhatsApp (`config/contact.php`) |
-| `CONTACT_EMAIL` | Correo mostrado en la sección de contacto |
-
-### Videos
-
-Coloca los archivos reales en `public/videos/`:
-
-- `public/videos/como-trabajamos.mp4`
-- `public/videos/proyectos.mp4`
-
-Si no existen, la sección de video muestra automáticamente un aviso
-"Video próximamente" en vez de un reproductor roto.
+**Los proyectos, cifras y testimonios actuales son de muestra** — reemplázalos
+por los reales en `src/lib/data.ts`. Para mostrar video al hacer hover en un
+proyecto, coloca el archivo en `public/videos/` y apunta el campo `video`.
 
 ## Despliegue en Coolify
 
-El repo incluye un `Dockerfile` (PHP-FPM + Nginx + Supervisor en Alpine) listo para
-que Coolify lo construya directamente, sin necesidad de Node ni de un `docker-compose.yml`.
+El repo incluye un `Dockerfile` multi-stage (Node alpine + salida standalone).
 
-Pasos en Coolify:
+1. **Nueva aplicación → desde este repositorio**, build type: `Dockerfile`.
+2. **Puerto expuesto**: `3000`.
+3. **Volumen persistente** (opcional, para el formulario): monta en `/app/data`.
+   Los mensajes se guardan en `/app/data/messages.jsonl`.
+4. No requiere variables de entorno obligatorias. Opcional:
+   - `CONTACT_DATA_DIR` — carpeta alternativa para los mensajes.
 
-1. **Nueva aplicación → desde este repositorio de Git**, tipo de build: `Dockerfile`.
-2. **Puerto expuesto**: `80` (ya declarado con `EXPOSE 80` en el Dockerfile).
-3. **Variables de entorno** a configurar en Coolify (no se commitean, van solo ahí):
-   - `APP_KEY` — genera una con `php artisan key:generate --show` y pégala tal cual
-     (incluyendo el prefijo `base64:`). Es obligatoria; el contenedor no arranca sin ella.
-   - `APP_ENV=production`
-   - `APP_DEBUG=false`
-   - `APP_URL=https://tu-dominio.com`
-   - `CONTACT_WHATSAPP_NUMBER=+50495076519`
-   - `CONTACT_EMAIL=contacto@serviciosydesarrollojc.com`
-4. **Almacenamiento persistente**: monta un volumen en `/var/www/html/database`.
-   Ahí vive `database.sqlite`, que guarda los mensajes de contacto, sesiones y caché.
-   Sin este volumen, cada nuevo deploy empieza con la base de datos vacía.
-5. Al iniciar, el contenedor corre automáticamente las migraciones
-   (`docker/entrypoint.sh`) y cachea config/rutas/vistas para producción.
-
-## Estructura relevante
-
-```
-app/Http/Controllers/ContactController.php   Guarda los mensajes del formulario
-app/Models/ContactMessage.php                Modelo del formulario de contacto
-resources/views/partials/                    Secciones de la landing (hero, capa8, etc.)
-public/assets/css/app.css                    Estilos (tema oscuro, sin build)
-public/assets/js/app.js                      Animaciones e interacciones (sin build)
-docker/                                       Config de nginx, php, supervisor y entrypoint
-```
+El dominio canónico está en `src/lib/site.ts` (`site.url`), usado por
+metadata, sitemap y JSON-LD.

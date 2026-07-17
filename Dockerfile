@@ -1,51 +1,32 @@
-# syntax=docker/dockerfile:1
-
-FROM composer:2 AS vendor
-
+# Imagen para Coolify: build multi-stage con salida standalone de Next.js.
+FROM node:24-alpine AS deps
 WORKDIR /app
-COPY composer.json composer.lock ./
-RUN composer install \
-    --no-dev \
-    --no-scripts \
-    --no-interaction \
-    --prefer-dist \
-    --optimize-autoloader \
-    --ignore-platform-reqs
+COPY package.json package-lock.json ./
+RUN npm ci
 
-FROM php:8.3-fpm-alpine
-
-RUN apk add --no-cache \
-        nginx \
-        supervisor \
-        sqlite \
-        icu-libs \
-    && apk add --no-cache --virtual .build-deps \
-        $PHPIZE_DEPS \
-        sqlite-dev \
-        icu-dev \
-        libzip-dev \
-        oniguruma-dev \
-    && docker-php-ext-install pdo pdo_sqlite mbstring intl zip bcmath opcache \
-    && apk del .build-deps
-
-COPY docker/php.ini /usr/local/etc/php/conf.d/99-app.ini
-COPY docker/nginx.conf /etc/nginx/nginx.conf
-COPY docker/supervisord.conf /etc/supervisord.conf
-COPY docker/entrypoint.sh /entrypoint.sh
-RUN chmod +x /entrypoint.sh
-
-WORKDIR /var/www/html
-
-COPY --from=vendor /app/vendor ./vendor
+FROM node:24-alpine AS builder
+WORKDIR /app
+COPY --from=deps /app/node_modules ./node_modules
 COPY . .
+ENV NEXT_TELEMETRY_DISABLED=1
+RUN npm run build
 
-RUN mkdir -p storage/framework/cache storage/framework/sessions storage/framework/views \
-        storage/logs bootstrap/cache database \
-    && touch database/database.sqlite \
-    && chown -R www-data:www-data /var/www/html \
-    && chmod -R 775 storage bootstrap/cache database
+FROM node:24-alpine AS runner
+WORKDIR /app
+ENV NODE_ENV=production \
+    NEXT_TELEMETRY_DISABLED=1 \
+    PORT=3000 \
+    HOSTNAME=0.0.0.0
 
-EXPOSE 80
+RUN addgroup -S nodejs && adduser -S nextjs -G nodejs
 
-ENTRYPOINT ["/entrypoint.sh"]
-CMD ["/usr/bin/supervisord", "-c", "/etc/supervisord.conf"]
+COPY --from=builder --chown=nextjs:nodejs /app/.next/standalone ./
+COPY --from=builder --chown=nextjs:nodejs /app/.next/static ./.next/static
+COPY --from=builder --chown=nextjs:nodejs /app/public ./public
+
+# Los mensajes del formulario se guardan aquí: monta un volumen en /app/data.
+RUN mkdir -p /app/data && chown nextjs:nodejs /app/data
+
+USER nextjs
+EXPOSE 3000
+CMD ["node", "server.js"]
