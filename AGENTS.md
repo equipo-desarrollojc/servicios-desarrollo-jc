@@ -73,6 +73,18 @@ src/app/api/contact/route.ts  Guarda mensajes en data/messages.jsonl
 - Logos con fondo blanco en `public/brand/` (se muestran dentro de chips
   blancos redondeados en header/footer).
 
+## Protocolo "guardalo todo dev 1 / dev 2"
+
+Cuando alguien del equipo escriba **"guardalo todo dev 1"** o **"dev 2"**,
+el asistente debe hacer, sin preguntar:
+
+1. Guardar lo relevante de la sesión en su memoria y actualizar este
+   `AGENTS.md` si cambió la arquitectura o alguna convención.
+2. Commit descriptivo con la línea `Developer: <nombre> (dev N)` en el cuerpo:
+   - **dev 1 = Josue Fellmann** · **dev 2 = Cristopher Valle**
+   - más el trailer `Co-Authored-By:` del asistente.
+3. `git push` a `origin/main` y reportar el hash.
+
 ## Deploy (Coolify)
 
 Dockerfile multi-stage Node 24 alpine, puerto **3000**, sin variables
