@@ -45,7 +45,7 @@
 
             <ol class="flow__steps">
                 @foreach ($steps as $i => $step)
-                    <li class="flow-step" data-step="{{ $i + 1 }}">
+                    <li class="flow-step" data-step="{{ $i + 1 }}" aria-label="Ver animación del paso {{ $i + 1 }}: {{ $step['title'] }}">
                         <span class="flow-step__node">
                             <i class="ti {{ $step['icon'] }}" aria-hidden="true"></i>
                         </span>
@@ -53,10 +53,16 @@
                             <span class="flow-step__num">Paso {{ $i + 1 }}</span>
                             <h3>{{ $step['title'] }}</h3>
                             <p>{{ $step['desc'] }}</p>
+                            <span class="flow-step__hint">
+                                <i class="ti ti-player-play-filled" aria-hidden="true"></i>
+                                Ver animación
+                            </span>
                         </div>
                     </li>
                 @endforeach
             </ol>
         </div>
     </div>
+
+    @include('partials._proceso-modal')
 </section>
