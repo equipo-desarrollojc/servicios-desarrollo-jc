@@ -15,7 +15,6 @@
         </a>
 
         <nav class="site-nav" aria-label="Navegación principal">
-            <a href="#capa8">Capa 8</a>
             <a href="#servicios">Servicios</a>
             <a href="#proceso">Proceso</a>
             <a href="#faq">FAQ</a>
@@ -40,7 +39,6 @@
     </div>
 
     <div class="mobile-nav" id="mobileNav">
-        <a href="#capa8">Capa 8</a>
         <a href="#servicios">Servicios</a>
         <a href="#proceso">Proceso</a>
         <a href="#faq">FAQ</a>

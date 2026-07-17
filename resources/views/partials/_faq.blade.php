@@ -1,8 +1,8 @@
 @php
     $faqs = [
         [
-            'q' => '¿Qué es exactamente la "Capa 8" y por qué la mencionan tanto?',
-            'a' => 'En el modelo OSI existen 7 capas técnicas que hacen posible que la tecnología funcione. "Capa 8" es un término informal usado en TI para referirse a las personas: quienes usan, deciden y viven la experiencia final. Lo tomamos como nuestra filosofía: toda decisión técnica se toma pensando en cómo la va a vivir un usuario real.',
+            'q' => '¿Por qué software a la medida en vez de una plantilla o un sistema genérico?',
+            'a' => 'Una plantilla te obliga a adaptar tu negocio al programa. El software a la medida funciona al revés: se construye alrededor de tus procesos, crece contigo y solo pagas por lo que realmente necesitas. A mediano plazo suele ser más barato que pelear con un sistema que no encaja.',
         ],
         [
             'q' => '¿Cuánto tiempo toma desarrollar un sitio web o sistema a medida?',

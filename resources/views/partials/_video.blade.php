@@ -18,7 +18,7 @@
             'src' => 'videos/proyectos.mp4',
             'tag' => 'Portafolio',
             'title' => 'Un vistazo a nuestros proyectos',
-            'desc' => 'Interfaces reales, pensadas para que la Capa 8 no tenga que pensar dos veces.',
+            'desc' => 'Interfaces reales, pensadas para que usarlas sea fácil desde el primer clic.',
         ],
     ];
 @endphp

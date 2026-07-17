@@ -114,6 +114,42 @@
         });
     }
 
+    /* ================= Animación del flujo de trabajo (5 pasos) ================= */
+    function initFlowAnimation() {
+        var flow = document.getElementById("flow");
+        if (!flow) return;
+        var steps = flow.querySelectorAll(".flow-step");
+
+        if (prefersReducedMotion) {
+            flow.style.setProperty("--flow-progress", 1);
+            steps.forEach(function (step) {
+                step.classList.add("is-active");
+            });
+            return;
+        }
+
+        var update = function () {
+            var rect = flow.getBoundingClientRect();
+            var viewportH = window.innerHeight;
+
+            var start = viewportH * 0.8;
+            var end = viewportH * 0.45 - rect.height;
+            var raw = (start - rect.top) / (start - end);
+            var progress = Math.min(Math.max(raw, 0), 1);
+
+            flow.style.setProperty("--flow-progress", progress.toFixed(4));
+
+            steps.forEach(function (step, i) {
+                var threshold = i === 0 ? 0.02 : i / (steps.length - 1) - 0.04;
+                step.classList.toggle("is-active", progress >= threshold);
+            });
+        };
+
+        update();
+        window.addEventListener("scroll", update, { passive: true });
+        window.addEventListener("resize", update);
+    }
+
     /* ================= Hero pointer-reactive particle network ================= */
     function initHeroCanvas() {
         var canvas = document.getElementById("heroCanvas");
@@ -291,6 +327,7 @@
         initScrollReveal();
         initFaq();
         initVideoFallback();
+        initFlowAnimation();
         initHeroCanvas();
         initActiveNavLinks();
     });

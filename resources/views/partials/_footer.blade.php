@@ -7,10 +7,9 @@
             <span>Servicios y Desarrollo JC</span>
         </div>
 
-        <p class="site-footer__tag">Tecnología con las 7 capas en orden, diseñada para la Capa 8.</p>
+        <p class="site-footer__tag">No compres software genérico. Constrúyelo a tu medida.</p>
 
         <nav class="site-footer__links" aria-label="Enlaces del pie de página">
-            <a href="#capa8">Capa 8</a>
             <a href="#servicios">Servicios</a>
             <a href="#proceso">Proceso</a>
             <a href="#faq">FAQ</a>

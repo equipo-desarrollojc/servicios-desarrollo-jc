@@ -1,7 +1,9 @@
 # Servicios y Desarrollo JC
 
 Landing page del emprendimiento **Servicios y Desarrollo JC**, construida con Laravel.
-Tema central: la **Capa 8** del modelo OSI — el usuario — como eje de todo el diseño.
+Eslogan: **"No compres software genérico. Constrúyelo a tu medida."** Todo el contenido
+está escrito en lenguaje de cliente, sin tecnicismos, con un flujo de trabajo animado
+en 5 pasos como pieza central.
 
 ## Desarrollo local
 

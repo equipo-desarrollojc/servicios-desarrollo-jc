@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{{ $title ?? 'Servicios y Desarrollo JC — Diseñamos para la Capa 8' }}</title>
-    <meta name="description" content="{{ $description ?? 'Servicios y Desarrollo JC construye sitios web, tiendas en línea y software a medida pensando siempre en la Capa 8: las personas que los usan.' }}">
+    <title>{{ $title ?? 'Servicios y Desarrollo JC — Software a tu medida' }}</title>
+    <meta name="description" content="{{ $description ?? 'Servicios y Desarrollo JC crea sitios web, tiendas en línea y software a la medida de tu negocio. No compres software genérico: constrúyelo a tu medida.' }}">
 
     <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}">
     <link rel="icon" type="image/png" sizes="16x16" href="{{ asset('favicon-16x16.png') }}">

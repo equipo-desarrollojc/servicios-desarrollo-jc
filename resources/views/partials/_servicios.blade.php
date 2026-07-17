@@ -22,8 +22,8 @@
         ],
         [
             'icon' => 'ti-users',
-            'title' => 'UX/UI centrado en la Capa 8',
-            'desc' => 'Interfaces claras y accesibles, probadas desde la perspectiva de quien las usa.',
+            'title' => 'Diseño fácil de usar',
+            'desc' => 'Interfaces claras y accesibles que tus clientes entienden a la primera.',
         ],
         [
             'icon' => 'ti-bolt',
@@ -36,7 +36,7 @@
 <section class="services" id="servicios">
     <div class="container">
         <p class="section-kicker" data-reveal>Servicios</p>
-        <h2 class="section-title" data-reveal>Todo lo que tu proyecto necesita para llegar bien a la Capa 8</h2>
+        <h2 class="section-title" data-reveal>Todo lo que tu negocio necesita para crecer en internet</h2>
         <p class="section-lede" data-reveal>
             Desde la primera línea de código hasta el soporte post-lanzamiento, cubrimos cada capa
             del proceso de desarrollo.
