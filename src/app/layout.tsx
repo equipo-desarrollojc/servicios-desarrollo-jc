@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
 import { Inter, Space_Grotesk } from "next/font/google";
-import Script from "next/script";
 import "./globals.css";
 import { site } from "@/lib/site";
 import { AppProvider } from "@/components/effects/AppProvider";
@@ -70,9 +69,15 @@ export default function RootLayout({
       suppressHydrationWarning
     >
       <body className="noise min-h-dvh">
-        <Script id="js-flag" strategy="beforeInteractive">
-          {`document.documentElement.classList.add("js")`}
-        </Script>
+        {/* Marca `html.js` antes de pintar, para que `[data-reveal]` arranque
+            oculto solo si hay JS. Va como <script> plano y no con <Script> de
+            next/script: React 19 avisa al renderizar un <script> cuyo código va
+            como children. Mismo patrón que el JSON-LD de abajo. */}
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `document.documentElement.classList.add("js")`,
+          }}
+        />
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationJsonLd) }}
