@@ -8,6 +8,9 @@ const LINK_NEIGHBORS = 3;
 const FOV = 2.4;
 const BASE_SPEED = 0.0032;
 const BASE_TILT = -0.35;
+/** Con `prefers-reduced-motion` el globo gira a esta fracción y deja de
+ *  reaccionar al puntero: movimiento reducido, no ausencia de movimiento. */
+const SLOW_FACTOR = 0.4;
 
 const COLORS = [
   "79, 140, 255",
@@ -60,11 +63,18 @@ export function HeroGlobe({ className }: { className?: string }) {
     let rafId: number | null = null;
     let inView = true;
 
+    // Se lee la media query aquí y no solo del estado de React: el hook va por
+    // `useSyncExternalStore`, cuyo snapshot de servidor es `false`, así que en
+    // el primer render cliente llega `false` aunque el sistema pida lo contrario.
+    const sinMovimiento =
+      reduced || window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const cruise = BASE_SPEED * (sinMovimiento ? SLOW_FACTOR : 1);
+
     let rotY = 0;
     let tiltX = BASE_TILT;
     let targetTiltX = BASE_TILT;
-    let speedY = BASE_SPEED;
-    let targetSpeedY = BASE_SPEED;
+    let speedY = cruise;
+    let targetSpeedY = cruise;
 
     // Esfera de Fibonacci: distribución uniforme de puntos.
     const points: Point[] = [];
@@ -197,7 +207,7 @@ export function HeroGlobe({ className }: { className?: string }) {
     };
 
     const play = () => {
-      if (rafId === null && inView && !document.hidden && !reduced) {
+      if (rafId === null && inView && !document.hidden) {
         rafId = requestAnimationFrame(step);
       }
     };
@@ -226,12 +236,12 @@ export function HeroGlobe({ className }: { className?: string }) {
 
     resize();
 
-    if (reduced) {
-      // Un solo cuadro estático: el globo se ve, pero no gira.
-      step(0);
-      pause();
-    } else {
-      play();
+    play();
+
+    // El giro lento se conserva siempre; lo que se quita con la preferencia es
+    // la reacción al puntero, que es la parte brusca: acelera e inclina el globo
+    // siguiendo el mouse.
+    if (!sinMovimiento) {
       host.addEventListener("pointermove", onPointerMove);
       host.addEventListener("pointerleave", onPointerLeave);
     }

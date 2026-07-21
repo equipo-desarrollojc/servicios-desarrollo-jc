@@ -11,7 +11,7 @@ import { site } from "@/lib/site";
  * Duración total del preloader, en segundos. El resto de los tiempos se
  * derivan de aquí, así que para acortarlo o alargarlo basta tocar este valor.
  */
-const TOTAL = 10;
+const TOTAL = 4;
 /** Salida: desvanecido de los textos + telón que sube. */
 const FADE = 0.4;
 const CURTAIN = 0.85;
@@ -21,7 +21,9 @@ const HOLD = TOTAL - FADE - CURTAIN;
 const REVEAL = 0.7;
 /** Medio salto (subida); la bajada es el yoyo. */
 const HOP = 0.5;
-const HOPS = Math.round((HOLD - REVEAL) / (HOP * 2));
+/** Mínimo 1: con 0 saltos el `repeat` saldría -1, que en GSAP es infinito y
+ *  dejaría el preloader colgado para siempre. */
+const HOPS = Math.max(1, Math.round((HOLD - REVEAL) / (HOP * 2)));
 
 /**
  * Pantalla de carga: logotipo que emerge y salta, contador 000→100 y barra de

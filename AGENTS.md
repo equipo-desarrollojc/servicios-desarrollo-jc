@@ -86,9 +86,16 @@ src/app/api/contact/route.ts  Guarda mensajes en data/messages.jsonl
   salta mientras tanto. No hay barra aparte. Contador, relleno y cualquier
   indicador se mueven desde un único valor en el `onUpdate` del contador.
 - **`prefers-reduced-motion` reduce el movimiento, no elimina la pantalla.**
-  Con esa preferencia el preloader conserva el relleno del logo y el contador
-  —que no desplazan nada— y quita el salto y el telón deslizante. Antes se
-  cancelaba entero y quien la tuviera activada no veía nunca la marca.
+  Criterio del proyecto: se conserva lo que no desplaza nada y se recorta lo que
+  sí. Con esa preferencia:
+  - **Preloader**: se mantienen el relleno del logo y el contador; se quitan el
+    salto y el telón deslizante (la salida es un desvanecido).
+  - **Globo del hero**: sigue girando pero al 40% (`SLOW_FACTOR`) y **deja de
+    reaccionar al puntero**, que es la parte brusca. Antes se pintaba un solo
+    cuadro y se congelaba.
+  - `TOTAL` en `Preloader.tsx` gobierna la duración; el resto se deriva. Ojo:
+    `HOPS` va con `Math.max(1, …)` porque con 0 saltos el `repeat` saldría -1,
+    que en GSAP es **infinito** y dejaría el preloader colgado.
 - Al decidir según `prefers-reduced-motion` dentro de un efecto, **leer la media
   query en ese momento** (`window.matchMedia(...).matches`) y no fiarse solo del
   hook: `useSyncExternalStore` devuelve el snapshot de servidor (`false`) en el
