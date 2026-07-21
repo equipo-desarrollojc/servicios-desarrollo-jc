@@ -77,9 +77,13 @@ export function Process() {
             aria-hidden="true"
             className="absolute top-0 bottom-0 left-[13px] w-px bg-line md:left-1/2"
           >
+            {/* Sin `scale-y-0`: en Tailwind 4 compila a la propiedad `scale`,
+                que se multiplica con el `transform` que anima GSAP y dejaría
+                la línea invisible. El estado inicial va en `style`. */}
             <div
               data-flow-line
-              className="h-full w-full origin-top scale-y-0 bg-gradient-to-b from-accent via-violet to-rose"
+              className="h-full w-full origin-top bg-gradient-to-b from-accent via-violet to-rose"
+              style={{ transform: "scaleY(0)" }}
             />
           </div>
 

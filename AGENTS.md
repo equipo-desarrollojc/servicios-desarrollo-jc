@@ -72,6 +72,22 @@ src/app/api/contact/route.ts  Guarda mensajes en data/messages.jsonl
   mp4 en `public/videos/` que se reproduce al hover.
 - Logos con fondo blanco en `public/brand/` (se muestran dentro de chips
   blancos redondeados en header/footer).
+- ⚠️ **Nunca combinar una clase `scale-*` de Tailwind con una animación GSAP
+  de `scale`/`scaleX`/`scaleY` en el mismo elemento.** En Tailwind 4 (no en la
+  3) `scale-x-0` compila a la propiedad independiente `scale: 0 1`, mientras
+  GSAP escribe en `transform`. El navegador aplica las dos y las multiplica:
+  cualquier valor × 0 = 0 y el elemento queda invisible, sin error ni aviso.
+  El estado inicial va en `style={{ transform: "scaleX(0)" }}`. Este fallo
+  mantuvo invisibles la barra del preloader y la línea de progreso de
+  `Process.tsx` desde la migración a Tailwind 4.
+- **Preloader**: dura 10 s (constante `TOTAL`, de la que se derivan los demás
+  tiempos). El logotipo "JC." **es** la barra de progreso — se llena del
+  degradado de marca de abajo hacia arriba al ritmo del contador `000→100`, y
+  salta mientras tanto. No hay barra aparte. Contador, relleno y cualquier
+  indicador se mueven desde un único valor en el `onUpdate` del contador.
+- Para verificar animaciones hace falta un navegador real (Playwright con
+  `reducedMotion: "no-preference"`): `tsc` en verde no prueba nada visual, y
+  quien revisa puede tener los efectos del sistema desactivados.
 
 ## Protocolo "guardalo todo dev 1 / dev 2"
 
