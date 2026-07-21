@@ -42,6 +42,15 @@ export function Header() {
     document.documentElement.style.overflow = open ? "hidden" : "";
   }, [open]);
 
+  useEffect(() => {
+    if (!open) return;
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") setOpen(false);
+    };
+    document.addEventListener("keydown", onKey);
+    return () => document.removeEventListener("keydown", onKey);
+  }, [open]);
+
   return (
     <>
       <motion.header
@@ -98,12 +107,18 @@ export function Header() {
               WhatsApp
             </a>
 
+            {/* Con el menú abierto este botón queda cubierto por el panel, así
+                que se retira del foco y del lector de pantalla: el cierre lo
+                gobierna la X de dentro del panel y no conviene anunciar dos
+                controles con el mismo cometido. */}
             <button
               type="button"
               onClick={() => setOpen(!open)}
               aria-expanded={open}
               aria-controls="menu-movil"
-              aria-label={open ? "Cerrar menú" : "Abrir menú"}
+              aria-label="Abrir menú"
+              aria-hidden={open || undefined}
+              tabIndex={open ? -1 : undefined}
               className="relative z-90 flex size-11 flex-col items-center justify-center gap-1.5 rounded-full border border-line lg:hidden"
             >
               <span
@@ -131,6 +146,26 @@ export function Header() {
             transition={{ duration: 0.55, ease: [0.22, 1, 0.36, 1] }}
             className="fixed inset-0 z-80 flex flex-col justify-between bg-bg px-6 pt-32 pb-10"
           >
+            {/* El botón hamburguesa del header queda TAPADO por este panel: vive
+                dentro de un <header> con z-70, que crea su propio contexto de
+                apilamiento, así que su z-90 solo compite ahí dentro y el panel
+                (z-80) lo cubre. Por eso el cierre va aquí dentro. */}
+            <button
+              type="button"
+              onClick={() => setOpen(false)}
+              aria-label="Cerrar menú"
+              className="absolute top-[18px] right-6 grid size-11 place-items-center rounded-full border border-line text-ink transition-colors duration-300 hover:border-accent hover:text-accent"
+            >
+              <svg viewBox="0 0 24 24" aria-hidden="true" className="size-5">
+                <path
+                  d="M6 6l12 12M18 6L6 18"
+                  stroke="currentColor"
+                  strokeWidth="1.5"
+                  strokeLinecap="round"
+                />
+              </svg>
+            </button>
+
             <nav aria-label="Navegación móvil" className="flex flex-col gap-2">
               {navLinks.map((link, i) => (
                 <motion.a

@@ -11,7 +11,7 @@ import { site } from "@/lib/site";
  * Duración total del preloader, en segundos. El resto de los tiempos se
  * derivan de aquí, así que para acortarlo o alargarlo basta tocar este valor.
  */
-const TOTAL = 4;
+const TOTAL = 5;
 /** Salida: desvanecido de los textos + telón que sube. */
 const FADE = 0.4;
 const CURTAIN = 0.85;
