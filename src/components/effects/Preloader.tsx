@@ -49,13 +49,35 @@ export function Preloader() {
       document.documentElement.style.overflow = "hidden";
       window.scrollTo(0, 0);
 
-      if (reduced) {
-        finish();
-        return;
-      }
+      // Se lee la preferencia aquí y no del estado de React a propósito:
+      // `useReducedMotion` va por `useSyncExternalStore`, cuyo snapshot de
+      // servidor es `false`, así que en el primer render cliente llega `false`
+      // aunque el sistema pida reducir movimiento. Con eso se armaba la línea
+      // completa —salto incluido— y el revert de GSAP no mataba ese tween.
+      const sinMovimiento =
+        reduced || window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
       const counter = { value: 0 };
+      const avanza = () => {
+        const v = Math.round(counter.value);
+        const num = root.current?.querySelector("[data-loader-count]");
+        const fill = root.current?.querySelector<HTMLElement>("[data-loader-fill]");
+        if (num) num.textContent = String(v).padStart(3, "0");
+        // El logotipo ES la barra: se llena de abajo hacia arriba.
+        if (fill) fill.style.clipPath = `inset(${100 - v}% 0 0 0)`;
+      };
+
       const tl = gsap.timeline({ onComplete: finish });
+
+      // Con `prefers-reduced-motion` se quita el MOVIMIENTO —el salto y el telón
+      // deslizante—, no la pantalla entera: el logo llenándose y el contador no
+      // desplazan nada, así que se conservan. Antes se cancelaba todo y quien
+      // tuviera esa preferencia no veía nunca la marca.
+      if (sinMovimiento) {
+        tl.to(counter, { value: 100, duration: HOLD, ease: "none", onUpdate: avanza }, 0)
+          .to(root.current, { autoAlpha: 0, duration: FADE + CURTAIN }, HOLD);
+        return;
+      }
 
       tl.from("[data-loader-mark]", {
         yPercent: 120,
@@ -81,14 +103,7 @@ export function Preloader() {
             value: 100,
             duration: HOLD - 0.2,
             ease: "power1.inOut",
-            onUpdate: () => {
-              const v = Math.round(counter.value);
-              const num = root.current?.querySelector("[data-loader-count]");
-              const fill = root.current?.querySelector<HTMLElement>("[data-loader-fill]");
-              if (num) num.textContent = String(v).padStart(3, "0");
-              // El logotipo ES la barra: se llena de abajo hacia arriba.
-              if (fill) fill.style.clipPath = `inset(${100 - v}% 0 0 0)`;
-            },
+            onUpdate: avanza,
           },
           0.2,
         )

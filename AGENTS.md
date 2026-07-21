@@ -85,9 +85,19 @@ src/app/api/contact/route.ts  Guarda mensajes en data/messages.jsonl
   degradado de marca de abajo hacia arriba al ritmo del contador `000→100`, y
   salta mientras tanto. No hay barra aparte. Contador, relleno y cualquier
   indicador se mueven desde un único valor en el `onUpdate` del contador.
+- **`prefers-reduced-motion` reduce el movimiento, no elimina la pantalla.**
+  Con esa preferencia el preloader conserva el relleno del logo y el contador
+  —que no desplazan nada— y quita el salto y el telón deslizante. Antes se
+  cancelaba entero y quien la tuviera activada no veía nunca la marca.
+- Al decidir según `prefers-reduced-motion` dentro de un efecto, **leer la media
+  query en ese momento** (`window.matchMedia(...).matches`) y no fiarse solo del
+  hook: `useSyncExternalStore` devuelve el snapshot de servidor (`false`) en el
+  primer render cliente, así que la animación se arma como si no hubiera
+  preferencia y el `revert` de GSAP no siempre mata los tweens ya lanzados.
 - Para verificar animaciones hace falta un navegador real (Playwright con
-  `reducedMotion: "no-preference"`): `tsc` en verde no prueba nada visual, y
-  quien revisa puede tener los efectos del sistema desactivados.
+  `reducedMotion` en `"no-preference"` **y** en `"reduce"`): `tsc` en verde no
+  prueba nada visual, y quien revisa puede tener los efectos del sistema
+  desactivados.
 
 ## Protocolo "guardalo todo dev 1 / dev 2"
 
