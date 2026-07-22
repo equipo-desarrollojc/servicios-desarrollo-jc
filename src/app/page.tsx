@@ -10,8 +10,12 @@ import { Stats } from "@/components/sections/Stats";
 import { Testimonials } from "@/components/sections/Testimonials";
 import { Faq } from "@/components/sections/Faq";
 import { Contact } from "@/components/sections/Contact";
+import { getPublishedProjects } from "@/lib/projects";
 
-export default function Home() {
+export default async function Home() {
+  // Se lee al generar la página; el panel dispara la regeneración al guardar.
+  const projects = await getPublishedProjects();
+
   return (
     <>
       <a
@@ -25,7 +29,7 @@ export default function Home() {
         <Hero />
         <Services />
         <Process />
-        <Portfolio />
+        <Portfolio projects={projects} />
         <Technologies />
         <Stats />
         <Testimonials />

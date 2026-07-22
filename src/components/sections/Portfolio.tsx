@@ -2,7 +2,7 @@
 
 import { useRef } from "react";
 import { gsap } from "@/lib/gsap";
-import { projects, type Project } from "@/lib/data";
+import type { Project } from "@/lib/data";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { Reveal } from "@/components/ui/Reveal";
 import { ArrowUpRightIcon } from "@/components/ui/icons";
@@ -11,9 +11,10 @@ import { useReducedMotion } from "@/hooks/useMediaQuery";
 /**
  * Grid de proyectos: zoom de portada al hover, video opcional que se
  * reproduce al pasar el mouse y fondo de sección que se tiñe con el
- * color del proyecto activo.
+ * color del proyecto activo. Los proyectos llegan por prop desde la
+ * página: se leen de la base de datos que administra el panel.
  */
-export function Portfolio() {
+export function Portfolio({ projects }: { projects: Project[] }) {
   const root = useRef<HTMLElement>(null);
   const reduced = useReducedMotion();
 

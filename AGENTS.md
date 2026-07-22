@@ -41,8 +41,14 @@ canvas 2D proyectado a mano, 240 puntos).
 
 ```
 src/lib/site.ts             Datos del negocio (WhatsApp, correo, URL, nav)
-src/lib/data.ts             TODO el contenido editable (servicios, pasos,
-                            proyectos, stats, testimonios, FAQ)
+src/lib/data.ts             Contenido editable (servicios, pasos, stats,
+                            testimonios, FAQ). Los PROYECTOS ya no: viven en
+                            la base de datos y aquí solo queda su respaldo.
+src/lib/db.ts               Conexión a PostgreSQL (la administra el panel)
+src/lib/projects.ts         Lee los proyectos publicados; si la BD no
+                            responde usa los placeholders de data.ts
+src/app/api/revalidate/     El panel llama aquí al guardar (cabecera
+                            x-revalidate-token) y la página se regenera
 src/lib/gsap.ts             Registro único de plugins GSAP
 src/components/effects/     AppProvider (estado ready del preloader),
                             Preloader, SmoothScroll (Lenis), CustomCursor
@@ -118,8 +124,21 @@ el asistente debe hacer, sin preguntar:
    - más el trailer `Co-Authored-By:` del asistente.
 3. `git push` a `origin/main` y reportar el hash.
 
+## Conexión con el panel de administración
+
+Los **proyectos del portafolio** se administran desde el repo
+`servicios-desarrollo-jc-admin` (dueño del esquema: su `db/schema.sql`).
+El circuito: el panel escribe en PostgreSQL → llama `POST /api/revalidate`
+con la cabecera `x-revalidate-token` → esta landing, que es estática, se
+regenera leyendo la base. Si la base no responde, la landing **no se cae**:
+usa los placeholders de `data.ts` y deja el error en el log.
+
+Variables (ver `.env.example`): `DATABASE_URL` y `REVALIDATE_TOKEN` — este
+último debe ser **idéntico** en las dos aplicaciones.
+
 ## Deploy (Coolify)
 
-Dockerfile multi-stage Node 24 alpine, puerto **3000**, sin variables
-obligatorias. Volumen opcional en `/app/data` para persistir los mensajes
-del formulario (`data/messages.jsonl`). Ver README para el paso a paso.
+Dockerfile multi-stage Node 24 alpine, puerto **3000**. Arranca sin
+variables (modo placeholders), pero para operar de verdad necesita
+`DATABASE_URL` y `REVALIDATE_TOKEN`. Volumen opcional en `/app/data` para
+persistir los mensajes del formulario (`data/messages.jsonl`). Ver README.
