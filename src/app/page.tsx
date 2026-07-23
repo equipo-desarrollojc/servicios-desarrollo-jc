@@ -12,8 +12,13 @@ import { Faq } from "@/components/sections/Faq";
 import { Contact } from "@/components/sections/Contact";
 import { getPublishedProjects } from "@/lib/projects";
 
+// Lectura en tiempo de ejecución, no de compilación: Coolify compila en un
+// entorno sin acceso a la base, así que un prerender horneaba los proyectos
+// de respaldo de data.ts. Así la página lee la base en cada visita —una
+// consulta indexada, milisegundos— y siempre refleja lo que dice el panel.
+export const dynamic = "force-dynamic";
+
 export default async function Home() {
-  // Se lee al generar la página; el panel dispara la regeneración al guardar.
   const projects = await getPublishedProjects();
 
   return (
