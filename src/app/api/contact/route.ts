@@ -65,9 +65,11 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: "Error interno" }, { status: 500 });
   }
 
-  // 2. Correos (best-effort, en paralelo): aviso al equipo y auto-respuesta
-  //    al cliente. Si fallan, no rompen el envío del formulario.
-  await Promise.allSettled([notifyTeam(msg), sendAck(msg)]);
+  // 2. Correos, uno tras otro (best-effort): Zoho puede rechazar dos envíos
+  //    SMTP simultáneos, así que se hacen en secuencia. Ninguno rompe el
+  //    envío del formulario si falla.
+  await notifyTeam(msg);
+  await sendAck(msg);
 
   return NextResponse.json({ ok: true });
 }
