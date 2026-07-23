@@ -2,7 +2,7 @@ export const site = {
   name: "Servicios y Desarrollo JC",
   shortName: "JC",
   slogan: "No compres software genérico. Constrúyelo a tu medida.",
-  url: "https://serviciosydesarrollojc.com",
+  url: "https://portafolio.serviciosydesarrollojc.com",
   description:
     "En Servicios y Desarrollo JC creamos sitios web, tiendas en línea y sistemas hechos exactamente para tu negocio. Tecnología que se adapta a ti, y no al revés.",
   email: "contacto@serviciosydesarrollojc.com",
