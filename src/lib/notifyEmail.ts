@@ -1,4 +1,5 @@
 import nodemailer from "nodemailer";
+import { teamEmail, clientEmail } from "./emailTemplates";
 
 type Message = {
   name: string;
@@ -52,20 +53,14 @@ export async function notifyTeam(msg: Message): Promise<boolean> {
   }
 
   try {
+    const { html, text } = teamEmail(msg);
     await getTransporter().sendMail({
       from: `Servicios y Desarrollo JC <${from}>`,
       to,
       replyTo: msg.email,
       subject: `Nuevo mensaje de ${msg.name}`,
-      text: [
-        `Nombre:   ${msg.name}`,
-        `Correo:   ${msg.email}`,
-        `Teléfono: ${msg.phone ?? "—"}`,
-        `Servicio: ${msg.service ?? "—"}`,
-        "",
-        "Mensaje:",
-        msg.message,
-      ].join("\n"),
+      html,
+      text,
     });
     return true;
   } catch (error) {
@@ -83,25 +78,15 @@ export async function sendAck(msg: Message): Promise<boolean> {
     return false;
   }
 
-  const cuerpo = [
-    `Hola ${msg.name},`,
-    "",
-    "Gracias por escribirnos. Recibimos tu mensaje y en breve uno de nuestros",
-    "desarrolladores estará en contacto contigo.",
-    "",
-    "Este es un correo automático, por favor no respondas a esta dirección.",
-    "",
-    "— Servicios y Desarrollo JC",
-  ].join("\n");
-
   try {
+    const { html, text } = clientEmail(msg);
     await getTransporter().sendMail({
-      from: `Servicios y Desarrollo JC (no responder) <${from}>`,
+      from: `Servicios y Desarrollo JC <${from}>`,
       to: msg.email,
-      // Desalienta respuestas: van al mismo remitente no monitoreado.
       replyTo: from,
       subject: "Recibimos tu mensaje — Servicios y Desarrollo JC",
-      text: cuerpo,
+      html,
+      text,
     });
     return true;
   } catch (error) {
