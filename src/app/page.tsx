@@ -11,15 +11,19 @@ import { Testimonials } from "@/components/sections/Testimonials";
 import { Faq } from "@/components/sections/Faq";
 import { Contact } from "@/components/sections/Contact";
 import { getPublishedProjects } from "@/lib/projects";
+import { getPublishedTestimonials } from "@/lib/testimonials";
 
 // Lectura en tiempo de ejecución, no de compilación: Coolify compila en un
-// entorno sin acceso a la base, así que un prerender horneaba los proyectos
-// de respaldo de data.ts. Así la página lee la base en cada visita —una
-// consulta indexada, milisegundos— y siempre refleja lo que dice el panel.
+// entorno sin acceso a la base, así que un prerender horneaba los datos
+// de respaldo de data.ts. Así la página lee la base en cada visita —consultas
+// indexadas, milisegundos— y siempre refleja lo que dice el panel.
 export const dynamic = "force-dynamic";
 
 export default async function Home() {
-  const projects = await getPublishedProjects();
+  const [projects, testimonials] = await Promise.all([
+    getPublishedProjects(),
+    getPublishedTestimonials(),
+  ]);
 
   return (
     <>
@@ -37,7 +41,7 @@ export default async function Home() {
         <Portfolio projects={projects} />
         <Technologies />
         <Stats />
-        <Testimonials />
+        <Testimonials testimonials={testimonials} />
         <Faq />
         <Contact />
       </main>

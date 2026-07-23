@@ -1,10 +1,12 @@
-import { testimonials } from "@/lib/data";
+import type { Testimonial } from "@/lib/data";
 import { Marquee } from "@/components/ui/Marquee";
 import { Reveal } from "@/components/ui/Reveal";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 
-/** Carrusel infinito de testimonios; se pausa al pasar el cursor. */
-export function Testimonials() {
+/** Carrusel infinito de testimonios; se pausa al pasar el cursor. Los
+ *  testimonios llegan por prop: se leen de la base que administra el panel. */
+export function Testimonials({ testimonials }: { testimonials: Testimonial[] }) {
+  if (testimonials.length === 0) return null;
   return (
     <section
       aria-labelledby="testimonios-titulo"
