@@ -2,13 +2,16 @@
 
 import { useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
-import { faqs } from "@/lib/data";
+import type { Faq as FaqType } from "@/lib/data";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { Reveal } from "@/components/ui/Reveal";
 
-/** Acordeón de preguntas frecuentes con apertura animada. */
-export function Faq() {
+/** Acordeón de preguntas frecuentes con apertura animada. Las preguntas
+ *  llegan por prop: se leen de la base que administra el panel. */
+export function Faq({ faqs }: { faqs: FaqType[] }) {
   const [open, setOpen] = useState<number | null>(0);
+
+  if (faqs.length === 0) return null;
 
   return (
     <section id="faq" aria-labelledby="faq-titulo" className="section-pad">

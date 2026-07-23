@@ -12,6 +12,7 @@ import { Faq } from "@/components/sections/Faq";
 import { Contact } from "@/components/sections/Contact";
 import { getPublishedProjects } from "@/lib/projects";
 import { getPublishedTestimonials } from "@/lib/testimonials";
+import { getPublishedFaqs } from "@/lib/faqs";
 
 // Lectura en tiempo de ejecución, no de compilación: Coolify compila en un
 // entorno sin acceso a la base, así que un prerender horneaba los datos
@@ -20,9 +21,10 @@ import { getPublishedTestimonials } from "@/lib/testimonials";
 export const dynamic = "force-dynamic";
 
 export default async function Home() {
-  const [projects, testimonials] = await Promise.all([
+  const [projects, testimonials, faqs] = await Promise.all([
     getPublishedProjects(),
     getPublishedTestimonials(),
+    getPublishedFaqs(),
   ]);
 
   return (
@@ -42,7 +44,7 @@ export default async function Home() {
         <Technologies />
         <Stats />
         <Testimonials testimonials={testimonials} />
-        <Faq />
+        <Faq faqs={faqs} />
         <Contact />
       </main>
       <Footer />
