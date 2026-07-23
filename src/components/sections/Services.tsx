@@ -1,4 +1,4 @@
-import { services, type Service } from "@/lib/data";
+import type { Service } from "@/lib/data";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { Reveal } from "@/components/ui/Reveal";
 import { ArrowUpRightIcon } from "@/components/ui/icons";
@@ -35,7 +35,8 @@ const iconPaths: Record<Service["icon"], React.ReactNode> = {
   bolt: <path d="M13 2 4.5 13.5H11L9.5 22 19 10h-6.5L13 2Z" />,
 };
 
-export function Services() {
+export function Services({ services }: { services: Service[] }) {
+  if (services.length === 0) return null;
   return (
     <section id="servicios" aria-labelledby="servicios-titulo" className="section-pad">
       <div className="container-x">
