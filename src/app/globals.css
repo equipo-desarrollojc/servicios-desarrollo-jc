@@ -152,4 +152,11 @@ html.js [data-reveal] {
     animation-iteration-count: 1 !important;
     transition-duration: 0.15s !important;
   }
+  /* Los carruseles decorativos (tecnologías y testimonios) siguen en
+     movimiento aunque se pida reducir movimiento —decisión de marca—, solo
+     que más lento. Vence a la regla universal de arriba por especificidad. */
+  .animate-marquee {
+    animation-duration: 80s !important;
+    animation-iteration-count: infinite !important;
+  }
 }
