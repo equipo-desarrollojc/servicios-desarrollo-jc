@@ -2,7 +2,7 @@ import { promises as fs } from "fs";
 import path from "path";
 import { NextResponse } from "next/server";
 import { getSql } from "@/lib/db";
-import { notifyByEmail } from "@/lib/notifyEmail";
+import { notifyTeam, sendAck } from "@/lib/notifyEmail";
 
 /**
  * Recibe el formulario de contacto. Guarda el mensaje en la base (para que el
@@ -65,8 +65,9 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: "Error interno" }, { status: 500 });
   }
 
-  // 2. Avisar por correo (best-effort: no bloquea la respuesta al usuario).
-  await notifyByEmail(msg);
+  // 2. Correos (best-effort, en paralelo): aviso al equipo y auto-respuesta
+  //    al cliente. Si fallan, no rompen el envío del formulario.
+  await Promise.allSettled([notifyTeam(msg), sendAck(msg)]);
 
   return NextResponse.json({ ok: true });
 }

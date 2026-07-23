@@ -9,13 +9,17 @@ type Message = {
 };
 
 /**
- * Avisa por correo de un mensaje nuevo del formulario, vía SMTP (Zoho).
- * Nunca lanza: el mensaje ya se guardó en la base, así que si el correo falla
- * el envío del formulario sigue siendo un éxito; el detalle queda en el log.
+ * Correos del formulario de contacto, vía SMTP (Zoho). Dos envíos:
+ *  - notifyTeam: aviso al equipo (CONTACT_EMAIL_TO) con los datos del mensaje.
+ *  - sendAck: auto-respuesta al cliente desde un remitente "no responder".
+ *
+ * Nada de esto lanza: el mensaje ya se guardó en la base, así que si el correo
+ * falla el envío del formulario sigue siendo un éxito; el detalle va al log.
  *
  * Variables: SMTP_HOST (def. smtp.zoho.com), SMTP_PORT (def. 465),
- * SMTP_USER (buzón completo), SMTP_PASS (contraseña de aplicación de Zoho),
- * CONTACT_EMAIL_FROM (def. = SMTP_USER), CONTACT_EMAIL_TO (coma-separados).
+ * SMTP_USER (buzón), SMTP_PASS (contraseña de aplicación de Zoho),
+ * CONTACT_EMAIL_FROM (def. = SMTP_USER), CONTACT_EMAIL_TO (coma-separados),
+ * CONTACT_NOREPLY_FROM (remitente de la auto-respuesta; def. = SMTP_USER).
  */
 let transporter: nodemailer.Transporter | null = null;
 function getTransporter() {
@@ -30,17 +34,20 @@ function getTransporter() {
   return transporter;
 }
 
-export async function notifyByEmail(msg: Message): Promise<boolean> {
-  const user = process.env.SMTP_USER;
-  const pass = process.env.SMTP_PASS;
-  const from = process.env.CONTACT_EMAIL_FROM ?? user;
+function configurado(): boolean {
+  return Boolean(process.env.SMTP_USER && process.env.SMTP_PASS);
+}
+
+/** Aviso al equipo. Responder va directo al cliente (replyTo). */
+export async function notifyTeam(msg: Message): Promise<boolean> {
+  const from = process.env.CONTACT_EMAIL_FROM ?? process.env.SMTP_USER;
   const to = (process.env.CONTACT_EMAIL_TO ?? "")
     .split(",")
     .map((s) => s.trim())
     .filter(Boolean);
 
-  if (!user || !pass || !from || to.length === 0) {
-    console.warn("[landing] SMTP no configurado; no se envió aviso.");
+  if (!configurado() || !from || to.length === 0) {
+    console.warn("[landing] SMTP no configurado; no se avisó al equipo.");
     return false;
   }
 
@@ -62,7 +69,43 @@ export async function notifyByEmail(msg: Message): Promise<boolean> {
     });
     return true;
   } catch (error) {
-    console.error("[landing] No se pudo enviar el correo:", error);
+    console.error("[landing] No se pudo avisar al equipo:", error);
+    return false;
+  }
+}
+
+/** Auto-respuesta al cliente, desde un remitente "no responder". */
+export async function sendAck(msg: Message): Promise<boolean> {
+  const from = process.env.CONTACT_NOREPLY_FROM ?? process.env.SMTP_USER;
+
+  if (!configurado() || !from) {
+    console.warn("[landing] SMTP no configurado; no se envió la auto-respuesta.");
+    return false;
+  }
+
+  const cuerpo = [
+    `Hola ${msg.name},`,
+    "",
+    "Gracias por escribirnos. Recibimos tu mensaje y en breve uno de nuestros",
+    "desarrolladores estará en contacto contigo.",
+    "",
+    "Este es un correo automático, por favor no respondas a esta dirección.",
+    "",
+    "— Servicios y Desarrollo JC",
+  ].join("\n");
+
+  try {
+    await getTransporter().sendMail({
+      from: `Servicios y Desarrollo JC (no responder) <${from}>`,
+      to: msg.email,
+      // Desalienta respuestas: van al mismo remitente no monitoreado.
+      replyTo: from,
+      subject: "Recibimos tu mensaje — Servicios y Desarrollo JC",
+      text: cuerpo,
+    });
+    return true;
+  } catch (error) {
+    console.error("[landing] No se pudo enviar la auto-respuesta:", error);
     return false;
   }
 }
